@@ -14,7 +14,7 @@ def plot_average_degrees(degree_avgs: dict):
     plt.ylabel('Average Degree')
     plt.legend()
     plt.grid()
-    plt.savefig("plots/average_degree_plot.png")
+    plt.savefig("average_degree_plot.png")
 
 def plot_edge_avg_over_time(edge_avg: list):
     """

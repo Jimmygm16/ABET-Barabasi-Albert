@@ -6,11 +6,11 @@ import numpy as np
 
 m0= 100 # numero de nodos al inicio de la red 
 m = 4 # numero de enlaces para cada nuevo nodo
-p_e = 0.5
 edge_avg = []
 
-def initialize():
-    global g
+def initialize(sample_p_e):
+    global g, p_e
+    p_e = sample_p_e
     g = nx.barabasi_albert_graph(m0, m, seed=None)
     g.pos = nx.spring_layout(g)
     g.count = 0 
@@ -21,7 +21,7 @@ def observe():
     nx.draw(g, pos = g.pos, cmap= cm.bwr, vmin=0, vmax=1)
 
 def update():
-    global g
+    global g, p_e
     g.count +=1
 
     # `p_e` can be understood as the probability of adding an edge between the new node and a random node in the graph
@@ -71,12 +71,12 @@ degree_avgs = []
 
 for i in range(number_of_simulations):
     print(f"Simulation {i+1} of {number_of_simulations}")
-    initialize() # Reset the graph to the initial state
+    sample_p_e = random.uniform(0.2, 0.8)
+    initialize(sample_p_e) # Reset the graph to the initial state
     for _ in range(iterations_per_graph):
         update()
     degree_avgs.append(get_average_degree_per_node())
-
-plot_average_degrees(degree_avgs)
+    plot_average_degrees(degree_avgs)
 
 # Print the average and standard deviation of the degree distribution
 print(f"Average degree: {np.mean(degree_avgs)}")
